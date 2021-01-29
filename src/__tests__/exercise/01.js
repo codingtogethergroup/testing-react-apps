@@ -5,9 +5,9 @@ import * as React from 'react'
 import ReactDOM from 'react-dom'
 import Counter from '../../components/counter'
 
-  beforeEach(() => {
-    document.body.innerHTML = ''
-  })
+beforeEach(() => {
+  document.body.innerHTML = ''
+})
 test('counter increments and decrements when the buttons are clicked', () => {
   const div = document.createElement('div')
   document.body.appendChild(div)
@@ -21,11 +21,21 @@ test('counter increments and decrements when the buttons are clicked', () => {
   const [decrement, increment] = div.querySelectorAll('button')
 
   // click increment button
-  increment.click()
+  const incrementClickEvent = new MouseEvent('click', {
+    bubbles: true,
+    cancelable: true,
+    button: 0,
+  })
+  increment.dispatchEvent(incrementClickEvent)
   expect(countValueDiv.textContent).toBe('Current count: 1')
 
   // click decrement button
-  decrement.click()
+  const decrementClickEvent = new MouseEvent('click', {
+    bubbles: true,
+    cancelable: true,
+    button: 0,
+  })
+  decrement.dispatchEvent(decrementClickEvent)
   expect(countValueDiv.textContent).toBe('Current count: 0')
 
   // 🐨 cleanup by removing the div from the page (💰 div.remove())
