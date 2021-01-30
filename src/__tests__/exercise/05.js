@@ -47,4 +47,9 @@ test('logining in without password causes alert', async () => {
 
   await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
   expect(screen.getByRole(/alert/i)).toBeInTheDocument()
+
+  // allow jest to updat the text for us automatically
+  expect(screen.getByRole(/alert/i).textContent).toMatchInlineSnapshot(
+    `"password required"`,
+  )
 })
