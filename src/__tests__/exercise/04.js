@@ -21,6 +21,7 @@ test('submitting the form calls onSubmit with username and password', () => {
 
   // assertion
   expect(submitHandler).toBeCalledWith({username, password})
+  expect(submitHandler).toBeCalledTimes(1)
 })
 
 /*
