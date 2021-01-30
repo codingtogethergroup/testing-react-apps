@@ -7,10 +7,12 @@ import userEvent from '@testing-library/user-event'
 import faker from 'faker'
 import Login from '../../components/login'
 
-function buildLoginForm() {
+// test data factory
+function buildLoginForm(overrides = {}) {
   return {
     username: faker.internet.userName(),
     password: faker.internet.password(),
+    ...overrides,
   }
 }
 
