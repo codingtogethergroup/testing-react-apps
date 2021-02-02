@@ -17,7 +17,8 @@ const styles = {
 
 function EasyButton(props) {
   const [theme] = useTheme()
-  return <button style={styles[theme]} {...props} />
+  const handleClick = () => window.alert('clicked easy button')
+  return <button style={styles[theme]} {...props} onClick={handleClick} />
 }
 
 export default EasyButton
