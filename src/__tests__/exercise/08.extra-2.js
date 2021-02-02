@@ -2,38 +2,40 @@ import * as React from 'react'
 import {render, act} from '@testing-library/react'
 import useCounter from '../../components/use-counter'
 
-test('allow customization of the initial count', () => {
-  let result = null
-  function FakeComponent({initialCount}) {
-    result = useCounter({initialCount})
+function setup({initialProps} = {}) {
+  const result = {}
+  function TestComponent() {
+    result.current = useCounter(initialProps)
     return null
   }
-  render(<FakeComponent initialCount={3} />)
+  render(<TestComponent />)
+  return result
+}
 
-  expect(result.count).toBe(3)
+test('allow customization of the initial count', () => {
+  const initialProps = {initialCount: 3}
+  const result = setup({initialProps})
 
-  act(() => result.increment())
-  expect(result.count).toBe(4)
+  expect(result.current.count).toBe(3)
 
-  act(() => result.decrement())
-  expect(result.count).toBe(3)
+  act(() => result.current.increment())
+  expect(result.current.count).toBe(4)
+
+  act(() => result.current.decrement())
+  expect(result.current.count).toBe(3)
 })
 
 test('allow customization of the step', () => {
-  let result = null
-  function FakeComponent({step}) {
-    result = useCounter({step})
-    return null
-  }
-  render(<FakeComponent step={3} />)
+  const result = setup({
+    initialProps: {step: 3},
+  })
+  expect(result.current.count).toBe(0)
 
-  expect(result.count).toBe(0)
+  act(() => result.current.increment())
+  expect(result.current.count).toBe(3)
 
-  act(() => result.increment())
-  expect(result.count).toBe(3)
-
-  act(() => result.decrement())
-  expect(result.count).toBe(0)
+  act(() => result.current.decrement())
+  expect(result.current.count).toBe(0)
 })
 
 /* eslint no-unused-vars:0 */
