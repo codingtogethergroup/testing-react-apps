@@ -6,10 +6,13 @@ import {render, screen} from '@testing-library/react'
 import {ThemeProvider} from '../../components/theme'
 import EasyButton from '../../components/easy-button'
 
-test('renders with the light styles for the light theme', () => {
-  const Wrapper = props => <ThemeProvider {...props} />
-  render(<EasyButton>Easy</EasyButton>, {wrapper: Wrapper})
+function renderWithProvider(ui, {theme = 'light', ...options} = {}) {
+  const Wrapper = ({children}) => <ThemeProvider>{children}</ThemeProvider>
+  return render(ui, {wrapper: Wrapper, ...options})
+}
 
+test('renders with the light styles for the light theme', () => {
+  renderWithProvider(<EasyButton>Easy</EasyButton>, {theme: 'light'})
   const easyBtn = screen.getByRole('button', {name: /easy/i})
   expect(easyBtn).toHaveStyle(`
     background-color: white;
@@ -18,12 +21,10 @@ test('renders with the light styles for the light theme', () => {
 })
 
 test('renders with the dark styles for the light theme', () => {
-  const Wrapper = props => <ThemeProvider initialTheme="dark" {...props} />
-  render(<EasyButton>Easy</EasyButton>, {wrapper: Wrapper})
-
+  renderWithProvider(<EasyButton>Easy</EasyButton>, {theme: 'dark'})
   const easyBtn = screen.getByRole('button', {name: /easy/i})
   expect(easyBtn).toHaveStyle(`
-    background-color: black;
-    color: white;
+    background-color: white;
+    color:black;
   `)
 })
